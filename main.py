@@ -15,7 +15,7 @@ os.makedirs(SAVE_ROOT, exist_ok=True)
 # model and task
 opt_model_name = "physnet"
 opt_dataset = "qm9"
-opt_task = "homo"  # 如 homo, lumo 等
+opt_task = "homo"  # e.g. homo, lumo
 
 # download the weights
 opt_name = f"{opt_model_name}_pub_{opt_dataset}{opt_task}"
