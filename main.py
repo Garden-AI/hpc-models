@@ -8,7 +8,7 @@ from tqdm import tqdm
 from config_physnet import BACKBONES, BACKBONE_KWARGS  # 确保这个模块在同一目录下
 
 # 模型和数据集的路径设置
-ROOT = "/Users/jason/Desktop/hpc_model/ai4molcryst_argonne/physnet_model"
+ROOT = os.getcwd()
 SAVE_ROOT = os.path.join(ROOT, "pretrained_models")
 os.makedirs(SAVE_ROOT, exist_ok=True)
 
@@ -21,7 +21,8 @@ opt_task = "homo"  # 如 homo, lumo 等
 opt_name = f"{opt_model_name}_pub_{opt_dataset}{opt_task}"
 model_path = os.path.join(SAVE_ROOT, f"{opt_name}.pth")
 if not os.path.exists(model_path):
-    cmd = f"wget https://zenodo.org/record/7758490/files/{opt_name}.pth?download=1 -O {model_path}"
+    cmd = f"wget https://zenodo.org/record/7758490/files/{
+        opt_name}.pth?download=1 -O {model_path}"
     proc = subprocess.run(cmd, capture_output=True, shell=True)
     if proc.returncode != 0:
         print("Error downloading the model:", proc.stderr.decode())
@@ -37,7 +38,8 @@ if os.path.exists(model_path):
     ckpt = torch.load(model_path, map_location=torch.device("cpu"))
     model.load_state_dict(ckpt['model'])
     model.eval()  # 将模型设置为评估模式
-    print(f"{model.__class__.__name__} is loaded with {opt_dataset.upper()} {opt_task.upper()}")
+    print(f"{model.__class__.__name__} is loaded with {
+          opt_dataset.upper()} {opt_task.upper()}")
 
 # 加载数据集
 data_root = os.path.join(ROOT, 'qm9/dataset')  # 设置数据集的存储路径

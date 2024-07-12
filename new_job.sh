@@ -5,7 +5,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=16     # Match to OMP_NUM_THREADS
 #SBATCH --partition=gpuA40x4
-#SBATCH --time=00:20:00
+#SBATCH --time=00:10:00
 #SBATCH --account=bdao-delta-gpu   # Match to a "Project" returned by the "accounts" command
 #SBATCH --job-name=physnet_training
 ### GPU options ###
@@ -23,8 +23,26 @@ module load gcc/11.4.0
 module load openmpi/4.1.6
 module load cudnn/8.9.0.131
 
+# Get the current user's home directory
+HOME_DIR=$HOME
+
+# Define the environment path
+ENV_PATH="$HOME_DIR/.conda/envs/physnet_env"
+
+# Check if the environment exists
+if [ ! -d "$ENV_PATH" ]; then
+    echo "Environment does not exist. Creating environment from env.yml..."
+    conda env create -f env.yml
+else
+    echo "Environment exists. Updating environment from env.yml..."
+    conda env update --prefix $ENV_PATH --file env.yml --prune
+fi
+
 # Activate the environment
-source activate /u/jisenli2/.conda/envs/phys_env
+source activate $ENV_PATH
+
+conda install pytorch torchvision torchaudio cudatoolkit=11.8 -c pytorch
+conda install pyg-lib -c pyg
 
 # Check if conda activation was successful
 if [ $? -ne 0 ]; then
@@ -49,7 +67,7 @@ if [ -z "$PYTHON_PATH" ]; then
 fi
 
 # Run the Python script using the full path and handle potential errors
-srun $PYTHON_PATH /u/jisenli2/ondemand/hpc/ai4molcryst_argonne/main.py > phys.out
+srun $PYTHON_PATH main.py > phys.out
 if [ $? -ne 0 ]; then
   echo "srun command failed"
   exit 1
