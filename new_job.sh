@@ -35,21 +35,6 @@ else
     conda env update --prefix $ENV_PATH --file environment.yml --prune
 fi
 
-# Define the repository path
-REPO_PATH="/projects/bdao/$USER/physnet_hpc"
-
-# Check if the repository directory already exists
-if [ ! -d "$REPO_PATH" ]; then
-    echo "Repository directory does not exist. Cloning repository..."
-    # Clone the repository to the specified path
-    git clone https://github.com/Garden-AI/hpc-models.git $REPO_PATH
-else
-    echo "Repository directory exists. Pulling latest updates..."
-    # Navigate to the repository directory and pull latest updates
-    cd $REPO_PATH
-    git pull
-fi
-
 # Activate the environment
 source activate $ENV_PATH
 
