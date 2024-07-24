@@ -1,4 +1,4 @@
-name: phys_env
+name: physnet_env
 channels:
   - anaconda
   - pytorch
