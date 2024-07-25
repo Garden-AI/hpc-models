@@ -51,8 +51,8 @@ def run(container_image: str = "hpc-notebook.sif"):
     if not os.path.exists(container_image):
         start()
 
-    else:
-        command = ["apptainer", "exec", container_image, "bash", "-c", f"python3 {py_file}"]
-        subprocess.run(command, check=True)
+
+    command = ["apptainer", "exec", container_image, "bash", "-c", f"python3 {py_file}"]
+    subprocess.run(command, check=True)
 
 run()
