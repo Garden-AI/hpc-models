@@ -64,42 +64,42 @@ def rerun(container_image: str = "hpc-notebook.sif"):
         subprocess.run(command, check=True)
 
       
+#create Apptainer Image
+def start(container_image: str = "hpc-notebook.sif"):
+    """Open a notebook file in HPC."""
 
-# def start(container_image: str = "hpc-notebook.sif"):
-#     """Open a notebook file in HPC."""
-
-#     # Get the absolute path of the definition file located three levels up from the current script's directory
-#     definition_file = os.path.abspath(
-#         os.path.join(os.path.dirname(__file__), "Singularity.def")
-#     )
+    # Get the absolute path of the definition file located three levels up from the current script's directory
+    definition_file = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "Singularity.def")
+    )
     
-#     current_directory = os.getcwd()
-#     notebooks_dir = os.path.join(current_directory, "notebooks")
+    current_directory = os.getcwd()
+    notebooks_dir = os.path.join(current_directory, "notebooks")
 
-#     os.makedirs(notebooks_dir, exist_ok=True)
+    os.makedirs(notebooks_dir, exist_ok=True)
 
-#     try:
-#         # Ensure the definition file exists
-#         if not os.path.isfile(definition_file):
-#             logger.error(f"Definition file {definition_file} not found.")
+    try:
+        # Ensure the definition file exists
+        if not os.path.isfile(definition_file):
+            logger.error(f"Definition file {definition_file} not found.")
   
 
-#         # Step 3: Build the Apptainer container
-#         build_command = ["apptainer", "build", container_image, definition_file]
-#         subprocess.run(build_command, check=True)
-#         logger.info("Apptainer container built successfully.")
+        # Step 3: Build the Apptainer container
+        build_command = ["apptainer", "build", container_image, definition_file]
+        subprocess.run(build_command, check=True)
+        logger.info("Apptainer container built successfully.")
 
-#         # Step 4: Run the Apptainer container and start Jupyter Notebook
-#         start_apptainer(notebooks_dir, container_image)
-#     except subprocess.CalledProcessError as e:
-#         logger.error(f"Failed to start Jupyter Notebook: {e}")
+        # Step 4: Run the Apptainer container and start Jupyter Notebook
+        start_apptainer(notebooks_dir, container_image)
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Failed to start Jupyter Notebook: {e}")
 
-#     except KeyboardInterrupt:
-#         logger.info("Operation cancelled by user (Ctrl-C).")
+    except KeyboardInterrupt:
+        logger.info("Operation cancelled by user (Ctrl-C).")
         
-#         sys.exit(0)
-#     except Exception as e:
-#         logger.error(f"An error occurred: {e}")
+        sys.exit(0)
+    except Exception as e:
+        logger.error(f"An error occurred: {e}")
       
 
 
