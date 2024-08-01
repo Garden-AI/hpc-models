@@ -44,8 +44,8 @@ def start(container_image: str = "hpc-notebook.sif"):
         logger.error(f"An error occurred: {e}")
       
 #run the model
-def run(container_image: str = "hpc-notebook.sif"):
-    container_image = os.path.abspath(os.path.join(os.path.dirname(__file__), "hpc-notebook.sif"))
+def run(container_image: str = "new_apptainer.sif"):
+    container_image = os.path.abspath(os.path.join(os.path.dirname(__file__), "new_apptainer.sif"))
     py_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../main.py"))
 
     if not os.path.exists(container_image):
