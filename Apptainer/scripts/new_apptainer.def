@@ -1,0 +1,41 @@
+Bootstrap: docker
+From: nvidia/cuda:11.8.0-cudnn8-devel-ubuntu20.04
+
+%labels
+    Maintainer "用户名"
+
+%post
+    # 更新apt-get并安装基础工具
+    apt-get update && apt-get install -y \
+        wget \
+        bzip2 \
+        ca-certificates \
+        curl \
+        git \
+        g++ \
+        python3 \
+        python3-pip
+
+    # 安装PyTorch
+    pip3 install torch torchvision
+
+    # 安装其他Python包
+    pip3 install \
+        numpy \
+        pandas \
+        matplotlib \
+        scikit-learn \
+        tqdm \
+        networkx \
+        einops \
+        pybind11 \
+        curtsies
+    pip3 install torch_geometric
+    pip3 install pyg_lib torch_scatter torch_sparse torch_cluster -f https://data.pyg.org/whl/torch-2.3.0+cu121.html
+
+%environment
+    export PATH=/usr/local/cuda/bin:$PATH
+    export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+
+%runscript
+    exec "$@"
